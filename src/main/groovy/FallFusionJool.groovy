@@ -18,6 +18,6 @@ import org.jooq.lambda.Seq
 
 var fall1 = Seq.of('🎃', '🍎', '🍁', '🌽')
 var fall2 = Seq.of('🥧', '🥧', '🍂', '🍞')
-var zipped = fall1.zip(fall2) {one, two -> "$one$two" }
+var zipped = fall1.zip(fall2) { one, two -> "$one$two" }
 var fusion = "[${zipped.toList().join(' + ')}] = Fall Fusion"
 assert fusion == '[🎃🥧 + 🍎🥧 + 🍁🍂 + 🌽🍞] = Fall Fusion'

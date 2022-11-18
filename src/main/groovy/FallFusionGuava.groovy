@@ -18,6 +18,6 @@ import com.google.common.collect.Streams
 
 var fall1 = ['🎃', '🍎', '🍁', '🌽']
 var fall2 = ['🥧', '🥧', '🍂', '🍞']
-var zipped = Streams.zip(fall1.stream(), fall2.stream()) {one, two -> "$one$two" }
+var zipped = Streams.zip(fall1.stream(), fall2.stream()) { one, two -> "$one$two" }
 var fusion = "[${zipped.toList().join(' + ')}] = Fall Fusion"
 assert fusion == '[🎃🥧 + 🍎🥧 + 🍁🍂 + 🌽🍞] = Fall Fusion'

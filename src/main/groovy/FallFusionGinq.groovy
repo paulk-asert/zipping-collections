@@ -20,6 +20,6 @@ var zipped = GQL {
     from one in fall1
     join two in fall2 on one._rn == two._rn
     select "$one.one$two.two"
-}.join(' + ')
-var fusion = "[$zipped] = Fall Fusion"
+}
+var fusion = "[${zipped.join(' + ')}] = Fall Fusion"
 assert fusion == '[🎃🥧 + 🍎🥧 + 🍁🍂 + 🌽🍞] = Fall Fusion'
