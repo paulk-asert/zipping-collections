@@ -19,5 +19,5 @@ import io.vavr.collection.List
 var fall1 = List.of('🎃', '🍎', '🍁', '🌽')
 var fall2 = List.of('🥧', '🥧', '🍂', '🍞')
 var zipped = fall1.zipWith(fall2) { one, two -> "$one$two" }
-var fusion = "[${zipped.toList().join(' + ')}] = Fall Fusion"
+var fusion = "[${zipped.join(' + ')}] = Fall Fusion"
 assert fusion == '[🎃🥧 + 🍎🥧 + 🍁🍂 + 🌽🍞] = Fall Fusion'

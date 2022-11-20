@@ -19,5 +19,5 @@ import one.util.streamex.StreamEx
 var fall1 = StreamEx.of('🎃', '🍎', '🍁', '🌽')
 var fall2 = StreamEx.of('🥧', '🥧', '🍂', '🍞')
 var zipped = fall1.zipWith(fall2) { one, two -> "$one$two" }
-var fusion = "[${zipped.toList().join(' + ')}] = Fall Fusion"
+var fusion = "[${zipped.joining(' + ')}] = Fall Fusion"
 assert fusion == '[🎃🥧 + 🍎🥧 + 🍁🍂 + 🌽🍞] = Fall Fusion'
