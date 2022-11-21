@@ -18,18 +18,22 @@ plugins {
     id 'groovy'
     id 'application'
     id 'com.github.ben-manes.versions' version '0.44.0'
+    id 'org.gradlex.java-ecosystem-capabilities'
     // uncomment next line when using JDK11+
-    //id 'com.autonomousapps.dependency-analysis' version '1.13.1'
+    //id 'com.autonomousapps.dependency-analysis' version '1.15.0'
 }
 
-ext.groovyVersion = '4.0.6'
-ext.eclipseCollectVersion = '11.1.0'
-ext.guavaVersion = '31.1-jre'
-ext.joolVersion = '0.9.14'
+ext {
+    groovyVersion = '4.0.6'
+    eclipseCollectVersion = '11.1.0'
+    guavaVersion = '31.1-jre'
+    joolVersion = '0.9.14'
+    streamExVersion = '0.8.1'
+    vavrVersion = '0.10.4'
+}
 
 repositories {
     mavenCentral()
-//    mavenLocal()
 }
 
 dependencies {
@@ -37,27 +41,32 @@ dependencies {
     implementation "org.apache.groovy:groovy-macro:$groovyVersion"
     implementation "org.apache.groovy:groovy-ginq:$groovyVersion"
     implementation "org.eclipse.collections:eclipse-collections-api:$eclipseCollectVersion"
-    implementation "org.eclipse.collections:eclipse-collections:$eclipseCollectVersion"
+    runtimeOnly "org.eclipse.collections:eclipse-collections:$eclipseCollectVersion"
     implementation "com.google.guava:guava:$guavaVersion"
     implementation "org.jooq:jool:$joolVersion"
-    implementation 'one.util:streamex:0.8.1'
-    implementation 'io.vavr:vavr:0.10.4'
-
-//    runtimeOnly 'org.slf4j:slf4j-simple:2.0.3'
+    implementation "one.util:streamex:$streamExVersion"
+    implementation "io.vavr:vavr:$vavrVersion"
 }
 
 group = 'org.apache.groovy'
 version = '1.0.0-SNAPSHOT'
-description = 'Eclipse Kata Groovy Solutions'
+description = 'Fall Fusion Kata Groovy Solutions'
 
 tasks.withType(GroovyCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-application {
-    mainClass = 'FallFusion'
-}
+tasks.register('runAll')
 
-tasks.named('run').configure {
-    description = "Run 'FruitColors' as a JVM application/Groovy script"
+FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
+    def t = tasks.register("run$name", JavaExec) {
+        dependsOn compileGroovy
+        group 'Application'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        main = name
+    }
+    tasks.named('runAll') {
+        it.dependsOn(t)
+    }
 }
